@@ -1,13 +1,10 @@
 from flask import Flask, request, jsonify , render_template ,Response ,send_file
 import pickle
 import  process as p
-from sklearn.externals import joblib
 import scipy as sp
 import requests
 from scipy.sparse import hstack
-
-app = Flask(__name__)
-
+from sklearn.externals import joblib
 def processing(url):
     
     tokens_slash = str(url.encode('utf-8')).split('/')# make tokens after splitting by slash
@@ -21,9 +18,11 @@ def processing(url):
         total_Tokens = total_Tokens + tokens + tokens_dot
     finaltest = list(set(total_Tokens))#remove redundant tokens
     return finaltest 
+    
+app = Flask(__name__)
 
+vectorize = joblib.load("face2.pkl")
 rfc = joblib.load("randomforestfinal.pkl")
-vectorizer = joblib.load("vectorizer.pkl")
 
 @app.route('/download',methods=['GET'])
 def download():
@@ -36,7 +35,7 @@ def main():
 @app.route('/api',methods=['GET'])
 def predict():
     params = request.args.get('url')
-    testapi = vectorizer.transform([params])
+    testapi = vectorize.transform([params])
     n = p.feature_processing(params)
     n = sp.sparse.csr_matrix(n)
     t = hstack([testapi,n])
