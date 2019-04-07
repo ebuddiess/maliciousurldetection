@@ -8,7 +8,6 @@ from scipy.sparse import hstack
 
 app = Flask(__name__)
 
-
 vectorizer = joblib.load("vectorizer.pkl")
 rfc = joblib.load("randomforestfinal.pkl")
 
@@ -44,4 +43,5 @@ if __name__ == '__main__':
         finaltest = list(set(total_Tokens))#remove redundant tokens
         return finaltest 
     
+    vectorizer = joblib.load("vectorizer.pkl")
     app.run()
