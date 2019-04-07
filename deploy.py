@@ -3,9 +3,13 @@ import pickle
 import  process as p
 import scipy as sp
 import requests
+import pandas as pd
 from scipy.sparse import hstack
 from sklearn.externals import joblib
-def processing(url):
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+def process(url):
     
     tokens_slash = str(url.encode('utf-8')).split('/')# make tokens after splitting by slash
     total_Tokens = []
@@ -18,10 +22,13 @@ def processing(url):
         total_Tokens = total_Tokens + tokens + tokens_dot
     finaltest = list(set(total_Tokens))#remove redundant tokens
     return finaltest 
-    
+
+urldata = pd.read_csv("urldata.csv")
+vectorizer = TfidfVectorizer(tokenizer=process)
+vectorizer.fit_transform(urldata['url'])
+
 app = Flask(__name__)
 
-vectorize = joblib.load("./vectorizer.pkl")
 rfc = joblib.load("./randomforestfinal.pkl")
 
 @app.route('/download',methods=['GET'])
@@ -35,7 +42,7 @@ def main():
 @app.route('/api',methods=['GET'])
 def predict():
     params = request.args.get('url')
-    testapi = vectorize.transform([params])
+    testapi = vectorizer.transform([params])
     n = p.feature_processing(params)
     n = sp.sparse.csr_matrix(n)
     t = hstack([testapi,n])
