@@ -19,6 +19,8 @@ def download():
 def main():
     return render_template('index.html',websitename="Maltracker");
 
+vectorizer = ""
+
 if __name__ == '__main__':
     def processing(url):
         tokens_slash = str(url.encode('utf-8')).split('/')# make tokens after splitting by slash
@@ -32,10 +34,12 @@ if __name__ == '__main__':
             total_Tokens = total_Tokens + tokens + tokens_dot
         finaltest = list(set(total_Tokens))#remove redundant tokens
         return finaltest 
-    
+    global vectorizer
     vectorizer = joblib.load("vectorizer.pkl")
-    @app.route('/api',methods=['GET'])
-    def predict():
+    app.run()
+
+@app.route('/api',methods=['GET'])
+def predict():
          params = request.args.get('url')
          testapi = vectorizer.transform([params])
          n = p.feature_processing(params)
@@ -43,5 +47,3 @@ if __name__ == '__main__':
          t = hstack([testapi,n])
          data = rfc.predict(t);
          return  jsonify(status=(data[0]))
-
-    app.run()
