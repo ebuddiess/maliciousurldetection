@@ -28,8 +28,7 @@ def predict():
     data = rfc.predict(t);
     return  jsonify(status=(data[0]))
 
-if __name__ == '__main__':
-    def processing(url):
+def processing(url):
         tokens_slash = str(url.encode('utf-8')).split('/')# make tokens after splitting by slash
         total_Tokens = []
         for i in tokens_slash:
@@ -42,5 +41,5 @@ if __name__ == '__main__':
         finaltest = list(set(total_Tokens))#remove redundant tokens
         return finaltest 
     
-    vectorizer = joblib.load("vectorizer.pkl")
-    app.run()
+vectorizer = joblib.load("vectorizer.pkl")
+app.run()
