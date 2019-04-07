@@ -22,7 +22,7 @@ def main():
 @app.route('/api',methods=['GET'])
 def predict():
     params = request.args.get('url')
-    testapi = capp.vectorizer.transform([params])
+    testapi = vectorizer.transform([params])
     n = p.feature_processing(params)
     n = sp.sparse.csr_matrix(n)
     t = hstack([testapi,n])
