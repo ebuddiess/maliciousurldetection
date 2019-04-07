@@ -21,8 +21,8 @@ def processing(url):
     
 app = Flask(__name__)
 
-vectorize = joblib.load("face2.pkl")
-rfc = joblib.load("randomforestfinal.pkl")
+vectorize = joblib.load("./vectorizer.pkl")
+rfc = joblib.load("./randomforestfinal.pkl")
 
 @app.route('/download',methods=['GET'])
 def download():
