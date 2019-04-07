@@ -22,25 +22,25 @@ if __name__ == '__main__':
         finaltest = list(set(total_Tokens))#remove redundant tokens
         return finaltest 
 
-rfc = joblib.load("randomforestfinal.pkl")
-vectorizer = joblib.load("vectorizer.pkl")
-      
-@app.route('/download',methods=['GET'])
-def download():
-   return send_file("./extension.rar", as_attachment=True)
-
-@app.route('/',methods=['GET'])
-def main():
-    return render_template('index.html',websitename="Maltracker");
-
-@app.route('/api',methods=['GET'])
-def predict():
-    params = request.args.get('url')
-    testapi = vectorizer.transform([params])
-    n = p.feature_processing(params)
-    n = sp.sparse.csr_matrix(n)
-    t = hstack([testapi,n])
-    data = rfc.predict(t);
-    return  jsonify(status=(data[0]))
-
-app.run()
+        rfc = joblib.load("randomforestfinal.pkl")
+        vectorizer = joblib.load("vectorizer.pkl")
+              
+        @app.route('/download',methods=['GET'])
+        def download():
+           return send_file("./extension.rar", as_attachment=True)
+        
+        @app.route('/',methods=['GET'])
+        def main():
+            return render_template('index.html',websitename="Maltracker");
+        
+        @app.route('/api',methods=['GET'])
+        def predict():
+            params = request.args.get('url')
+            testapi = vectorizer.transform([params])
+            n = p.feature_processing(params)
+            n = sp.sparse.csr_matrix(n)
+            t = hstack([testapi,n])
+            data = rfc.predict(t);
+            return  jsonify(status=(data[0]))
+        
+        app.run()
