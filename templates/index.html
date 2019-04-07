@@ -64,7 +64,7 @@
 <body>
     <div class="container-fluid info">
         <h3>{{websitename}} - AI Based Malicious website Detector</h3>
-    <h4 class="text-right"><a href="http://127.0.0.1:5000/download">Live Extension download</a></h4>
+    <h4 class="text-right"><a href="https://maltracker.herokuapp.com/download">Live Extension download</a></h4>
     </div>
     <div class="jumbotron">
 
@@ -107,7 +107,7 @@
                     }
                 }
             };
-            xhttp.open("GET", "http://127.0.0.1:5000/api?url=" + url, true);
+            xhttp.open("GET", "https://maltracker.herokuapp.com/api?url=" + url, true);
             xhttp.send();
         }
     </script>
