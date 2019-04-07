@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify , render_template ,Response ,send_file
+from flask import Flask, request, jsonify , render_template ,Response ,send_file 
+from flask import current_app as capp
 import pickle
 import  process as p
 from sklearn.externals import joblib
@@ -21,14 +22,15 @@ def main():
 @app.route('/api',methods=['GET'])
 def predict():
     params = request.args.get('url')
-    testapi = vectorizer.transform([params])
+    testapi = capp.vectorizer.transform([params])
     n = p.feature_processing(params)
     n = sp.sparse.csr_matrix(n)
     t = hstack([testapi,n])
     data = rfc.predict(t);
     return  jsonify(status=(data[0]))
 
-def processing(url):
+if __name__ == '__main__':
+    def processing(url):
         tokens_slash = str(url.encode('utf-8')).split('/')# make tokens after splitting by slash
         total_Tokens = []
         for i in tokens_slash:
@@ -41,5 +43,5 @@ def processing(url):
         finaltest = list(set(total_Tokens))#remove redundant tokens
         return finaltest 
     
-vectorizer = joblib.load("vectorizer.pkl")
-app.run()
+    vectorizer = joblib.load("vectorizer.pkl")
+    app.run()
