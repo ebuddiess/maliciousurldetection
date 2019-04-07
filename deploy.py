@@ -9,7 +9,6 @@ from scipy.sparse import hstack
 app = Flask(__name__)
 
 def processing(url):
-    
     tokens_slash = str(url.encode('utf-8')).split('/')# make tokens after splitting by slash
     total_Tokens = []
     for i in tokens_slash:
@@ -22,8 +21,6 @@ def processing(url):
     finaltest = list(set(total_Tokens))#remove redundant tokens
     return finaltest 
 
-rfc = joblib.load("randomforestfinal.pkl")
-
 @app.route('/download',methods=['GET'])
 def download():
    return send_file("./extension.rar", as_attachment=True)
@@ -35,13 +32,16 @@ def main():
 @app.route('/api',methods=['GET'])
 def predict():
     params = request.args.get('url')
-    vectorizer = joblib.load("vectorizer.pkl")
     testapi = vectorizer.transform([params])
     n = p.feature_processing(params)
     n = sp.sparse.csr_matrix(n)
     t = hstack([testapi,n])
     data = rfc.predict(t);
     return  jsonify(status=(data[0]))
+
+rfc = joblib.load("randomforestfinal.pkl")
+vectorizer = joblib.load("vectorizer.pkl")
+
 
 if __name__ == '__main__':
    app.run()
