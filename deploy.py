@@ -23,7 +23,6 @@ def processing(url):
     return finaltest 
 
 rfc = joblib.load("randomforestfinal.pkl")
-vectorizer = joblib.load("vectorizer.pkl")
 
 @app.route('/download',methods=['GET'])
 def download():
@@ -36,6 +35,7 @@ def main():
 @app.route('/api',methods=['GET'])
 def predict():
     params = request.args.get('url')
+    vectorizer = joblib.load("vectorizer.pkl")
     testapi = vectorizer.transform([params])
     n = p.feature_processing(params)
     n = sp.sparse.csr_matrix(n)
