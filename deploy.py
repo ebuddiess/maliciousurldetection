@@ -8,6 +8,15 @@ from scipy.sparse import hstack
 
 app = Flask(__name__)
 
+@app.route('/download',methods=['GET'])
+def download():
+           return send_file("./extension.rar", as_attachment=True)
+        
+@app.route('/',methods=['GET'])
+def main():
+            return render_template('index.html',websitename="Maltracker");
+        
+
 if __name__ == '__main__':
     def processing(url):
         tokens_slash = str(url.encode('utf-8')).split('/')# make tokens after splitting by slash
@@ -25,14 +34,6 @@ if __name__ == '__main__':
         rfc = joblib.load("randomforestfinal.pkl")
         vectorizer = joblib.load("vectorizer.pkl")
               
-        @app.route('/download',methods=['GET'])
-        def download():
-           return send_file("./extension.rar", as_attachment=True)
-        
-        @app.route('/',methods=['GET'])
-        def main():
-            return render_template('index.html',websitename="Maltracker");
-        
         @app.route('/api',methods=['GET'])
         def predict():
             params = request.args.get('url')
