@@ -8,7 +8,6 @@ from scipy.sparse import hstack
 
 app = Flask(__name__)
 
-vectorizer = joblib.load("vectorizer.pkl")
 rfc = joblib.load("randomforestfinal.pkl")
 
 @app.route('/download',methods=['GET'])
