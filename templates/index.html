@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Maltracker - AI Malicous Website Detector & Blocker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <style>
+        .info {
+            background: rgb(4, 84, 255);
+            color: white;
+            padding: 20px;
+        }
+
+        .jumbotron {
+            border-radius: 0px;
+            color: white;
+            margin: 0;
+            background: rgb(236, 94, 12);
+        }
+        .status{
+            color: white;
+            padding:20px;
+            height:325px;
+            background: black;
+        }
+        h4{
+            width:30%;
+        margin:0;
+        font-size:15px;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        a:hover{
+            text-decoration: none;
+        }
+        .list-group-item:nth-child(even){
+        background: #000000;
+        }
+        .list-group-item:nth-child(even) a{
+        color: white
+        }
+        h4 a {
+            color: white
+        }
+        h4 a:hover {
+            color: rgb(16, 231, 131)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid info">
+        <h3>{{websitename}} - AI Based Malicious website Detector</h3>
+    <h4 class="text-right"><a href="http://127.0.0.1:5000/download">Live Extension download</a></h4>
+    </div>
+    <div class="jumbotron">
+
+        <div class="form-group">
+            <label for="websitetxt">Website Name</label>
+            <input placeholder="Type Full Website url" type="text" class="form-control" id="websitetxt">
+        </div>
+        <button type="submit" onclick="detect()" class="btn btn-primary">Detect</button>
+        <div id="output"></div>
+
+    </div>
+    <div class="status">
+        <ol class="list-group list-group-flush">
+            <li class="list-group-item"><a href="#">Saksham - DataScience Developer</a></li>
+            <li class="list-group-item"><a href="#">Jagdeep - Visualization</a></li>
+            <li class="list-group-item"><a href="#">Sidhart Kumar - DataScience Developer</a></li>
+            <li class="list-group-item"><a href="#">Diskha - Visualization'</a></li>
+            <li class="list-group-item"><a href="#">Puneet Kumar - Backend Developer</a></li>
+            <li class="list-group-item"><a href="#">Asif - Backend Developer</a></li>
+        </ol>
+    </div>
+    <script>
+        function detect() {
+            url = $('#websitetxt').val()
+            var xhttp = new XMLHttpRequest();
+            console.log(url)
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    data = JSON.parse(xhttp.responseText)
+                    console.log(data)
+                    if (data.status == "malicious") {
+                        $('#output').html(
+                            "<h1 style='margin-top: 20px;color:red;background: black;padding: 10px;'>Malicious-" +
+                            url + "</h1>");
+
+                    } else {
+                        $('#output').html(
+                            "<h1 style='margin-top: 20px;color:green;background: black;padding: 10px;'>Safe - " +
+                            url + "</h1>");
+                    }
+                }
+            };
+            xhttp.open("GET", "http://127.0.0.1:5000/api?url=" + url, true);
+            xhttp.send();
+        }
+    </script>
+</body>
+
+</html>
