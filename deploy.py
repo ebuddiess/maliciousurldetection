@@ -22,6 +22,9 @@ if __name__ == '__main__':
         finaltest = list(set(total_Tokens))#remove redundant tokens
         return finaltest 
 
+rfc = joblib.load("randomforestfinal.pkl")
+vectorizer = joblib.load("vectorizer.pkl")
+      
 @app.route('/download',methods=['GET'])
 def download():
    return send_file("./extension.rar", as_attachment=True)
@@ -40,7 +43,4 @@ def predict():
     data = rfc.predict(t);
     return  jsonify(status=(data[0]))
 
-rfc = joblib.load("randomforestfinal.pkl")
-vectorizer = joblib.load("vectorizer.pkl")
-      
 app.run()
