@@ -7,7 +7,7 @@ import requests
 from scipy.sparse import hstack
 
 app = Flask(__name__)
-rfc = joblib.load("randomforestfinal.pkl")
+#rfc = joblib.load("randomforestfinal.pkl")
 
 def processing(url):
     
@@ -23,7 +23,7 @@ def processing(url):
     finaltest = list(set(total_Tokens))#remove redundant tokens
     return finaltest 
 
-vectorizer = joblib.load("vectorizer.pkl")
+#vectorizer = joblib.load("vectorizer.pkl")
 
 @app.route('/download',methods=['GET'])
 def download():
